@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: api-orders
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/delivery
+      - SPRING_DATASOURCE_USERNAME=username
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SECURITY_TOKEN_SECRET=orders
+    depends_on:
+      - db
+
+  db:
+    container_name: pg-db-api
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=delivery
